@@ -16,11 +16,12 @@ def twitter
 end
 
 # https://twitter.com/elainebyrne/lists/irish-politicians
+# remove prefix "Senator" and suffixed "TD" (Teachta Dála) from names
 
-twitter.list_members('elainebyrne', 'irish-politicians').each do |person|  
+twitter.list_members('elainebyrne', 'irish-politicians').each do |person|
   data = {
     id: person.id,
-    name: person.name,
+    name: person.name.gsub(/(^Sen(ator)?\s|\sT\.?D\.?$)/, ''),
     twitter: person.screen_name,
   }
   data[:image] = person.profile_image_url_https(:original).to_s unless person.default_profile_image?
